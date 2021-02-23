@@ -8,6 +8,7 @@ import vosk
 import sys
 import pyttsx3
 import json
+import core
 
 #sintese de fala
 engine = pyttsx3.init()
@@ -23,14 +24,14 @@ def speak(text):
 q = queue.Queue()
 
 def int_or_str(text):
-    """Helper function for argument parsing."""
+    """Função auxiliar para análise de argumento."""
     try:
         return int(text)
     except ValueError:
         return text
 
 def callback(indata, frames, time, status):
-    """This is called (from a separate thread) for each audio block."""
+    """Isso é chamado (a partir de um thread separado) para cada bloco de áudio."""
     if status:
         print(status, file=sys.stderr)
     q.put(indata)
@@ -64,12 +65,12 @@ try:
     if args.model is None:
         args.model = "model"
     if not os.path.exists(args.model):
-        print ("Please download a model for your language from https://alphacephei.com/vosk/models")
-        print ("and unpack as 'model' in the current folder.")
+        print ("Baixe um modelo para o seu idioma em https://alphacephei.com/vosk/models")
+        print ("e descompacte como 'modelo' na pasta atual.")
         parser.exit(0)
     if args.samplerate is None:
         device_info = sd.query_devices(args.device, 'input')
-        # soundfile expects an int, sounddevice provides a float:
+        # soundfile espera um int, sounddevice fornece um float:
         args.samplerate = int(device_info['default_samplerate'])
 
     model = vosk.Model(args.model)
@@ -82,7 +83,7 @@ try:
     with sd.RawInputStream(samplerate=args.samplerate, blocksize = 8192, device=args.device, dtype='int16',
                             channels=1, callback=callback):
             print('#' * 80)
-            print('Press Ctrl+C to stop the recording')
+            print('Pressione Ctrl + C para parar a gravação')
             print('#' * 80)
 
             rec = vosk.KaldiRecognizer(model, args.samplerate)
@@ -97,7 +98,10 @@ try:
                         text = result['text']
 
                     print(text)
-                    speak(text)
+                    #speak(text)
+
+                    if text == 'que horas são' or text == 'me diga as horas':
+                        speak(core.SystemInfo.get_time())
               
 except KeyboardInterrupt:
     print('\nDone')
