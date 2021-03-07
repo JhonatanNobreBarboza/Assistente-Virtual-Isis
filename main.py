@@ -98,7 +98,7 @@ try:
                         text = result['text']
 
                     print(text)
-                    #speak(text)
+                    speak(text)
 
                     if text == 'que horas são' or text == 'me diga as horas':
                         speak(core.SystemInfo.get_time())
