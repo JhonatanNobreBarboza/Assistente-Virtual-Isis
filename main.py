@@ -9,6 +9,7 @@ import sys
 import pyttsx3
 import json
 import core
+from nlu.classifier import classify
 
 #sintese de fala
 engine = pyttsx3.init()
@@ -97,11 +98,14 @@ try:
                     if result is not None:
                         text = result['text']
 
-                    print(text)
-                    #speak(text)
+                        #Reconhecer Entidade do texto
+                        entity = classify(text)
 
-                    if text == 'que horas são' or text == 'me diga as horas':
-                        speak(core.SystemInfo.get_time())
+                        if entity == 'time\getTime':
+                            speak(core.SystemInfo.get_time())
+                        
+                        print('Text: {} Entity: {}'.format(text, entity))
+                        #speak(text)
               
 except KeyboardInterrupt:
     print('\nDone')

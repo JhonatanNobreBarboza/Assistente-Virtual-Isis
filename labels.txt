@@ -1,0 +1,4 @@
+weather\getWeather
+time\getTime
+time\getDate
+abrir\None
