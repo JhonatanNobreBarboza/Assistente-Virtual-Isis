@@ -1,4 +1,4 @@
+time\getDate
+abrir\google
 weather\getWeather
 time\getTime
-time\getDate
-abrir\None

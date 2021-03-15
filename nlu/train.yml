@@ -34,9 +34,5 @@ commands:
   - commmand:
     input: Abra o google
     entity: abrir
-    action:
-  - commmand:
-    input: Abra o youtube
-    entity: abrir
-    action: 
+    action: google
 
